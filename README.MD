@@ -1,1 +1,1 @@
-run *gradle schemagen*
+run *gradlew schemagen*

@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'war'
 
-sourceCompatibility = 1.5
+sourceCompatibility = 1.7
 version = '1.0'
 
 repositories {
@@ -10,15 +10,15 @@ repositories {
     maven { url "https://maven.java.net/content/groups/public/" }
 }
 configurations {
-    provided
+    providedCompile
 }
   sourceSets {
-    main { compileClasspath += configurations.provided }
+    main { compileClasspath += configurations.providedCompile }
 }
 dependencies {
     // JAXB
-    provided  "com.sun.xml.bind:jaxb-xjc:2.2.7"
-    provided  "com.sun.xml.bind:jaxb-jxc:2.2.7"
+    providedCompile  "com.sun.xml.bind:jaxb-xjc:2.2.7"
+    providedCompile  "com.sun.xml.bind:jaxb-jxc:2.2.7"
 
     // utilities
     compile "org.functionaljava:functionaljava:3.1"
@@ -40,7 +40,6 @@ dependencies {
 task schemagen() {
     file("schemas").mkdir()
     ant.taskdef(name: "schemagen", classname: "com.sun.tools.jxc.SchemaGenTask", classpath: sourceSets.main.compileClasspath.asPath)
-    ant.schemagen(srcdir: "src/main/java", destdir: "schemas") {
-        include(name: "org/gradle/Person.java")
+    ant.schemagen(srcdir: "src/main/java", destdir: "schemas", includeAntRuntime: 'false') {	
     }
 }
